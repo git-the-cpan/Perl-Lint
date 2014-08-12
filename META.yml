@@ -1,0 +1,45 @@
+---
+abstract: 'Yet Another Perl Source Code Linter'
+author:
+  - 'moznion <moznion@gmail.com>'
+build_requires:
+  File::Temp: '0'
+  Test::Base::Less: '0'
+  Test::More: '0.98'
+configure_requires:
+  Module::Build::Tiny: '0.035'
+dynamic_config: 0
+generated_by: 'Minilla/v2.1.1, CPAN::Meta::Converter version 2.142060'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: Perl-Lint
+no_index:
+  directory:
+    - t
+    - xt
+    - inc
+    - share
+    - eg
+    - examples
+    - author
+    - builder
+requires:
+  B::Keywords: '0'
+  Carp: '0'
+  Compiler::Lexer: '0.19'
+  Email::Address: '0'
+  List::Util: '1.38'
+  Module::Pluggable: '0'
+  Regexp::Parser: '0'
+  String::CamelCase: '0'
+  feature: '0'
+  parent: '0'
+  perl: '5.010001'
+resources:
+  bugtracker: https://github.com/moznion/Perl-Lint/issues
+  homepage: https://github.com/moznion/Perl-Lint
+  repository: git://github.com/moznion/Perl-Lint
+version: 0.01_01
+x_authority: cpan:MOZNION

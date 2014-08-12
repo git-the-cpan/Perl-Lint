@@ -1,0 +1,6 @@
+name = "Perl-Lint"
+badges = ["travis", "coveralls"]
+authority="cpan:MOZNION"
+
+module_maker="ModuleBuildTiny"
+
