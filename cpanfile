@@ -8,6 +8,7 @@ requires 'String::CamelCase';
 requires 'B::Keywords';
 requires 'Email::Address';
 requires 'Regexp::Parser';
+requires 'Module::Load';
 requires 'Module::Pluggable';
 
 on configure => sub {
@@ -18,6 +19,7 @@ on test => sub {
     requires 'Test::More', '0.98';
     requires 'File::Temp';
     requires 'Test::Base::Less';
+    requires 'Capture::Tiny';
 };
 
 on develop => sub {
