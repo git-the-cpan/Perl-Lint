@@ -4,12 +4,15 @@ requires 'Compiler::Lexer', '0.19';
 requires 'feature';
 requires 'parent';
 requires 'List::Util', '1.38';
+requires 'List::MoreUtils', '0.33';
 requires 'String::CamelCase';
 requires 'B::Keywords';
 requires 'Email::Address';
 requires 'Regexp::Parser';
 requires 'Module::Load';
 requires 'Module::Pluggable';
+requires 'List::Flatten';
+requires 'Test::Deep::NoTest';
 
 on configure => sub {
     requires 'Module::Build::Tiny', '0.035';

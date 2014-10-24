@@ -5,16 +5,17 @@ use Compiler::Lexer::Constants;
 use parent qw/Exporter/;
 
 our @EXPORT = qw(
-    VAR_DECL OUR_DECL LOCAL_DECL FUNCTION_DECL FORMAT_DECL
+    VAR_DECL OUR_DECL LOCAL_DECL FUNCTION_DECL FORMAT_DECL STATE_DECL
     USE_DECL REQUIRE_DECL
     USED_NAME REQUIRED_NAME
     CALL FUNCTION
     VAR CODE_VAR ARRAY_VAR HASH_VAR
     GLOBAL_VAR GLOBAL_ARRAY_VAR GLOBAL_HASH_VAR
     LOCAL_VAR LOCAL_ARRAY_VAR LOCAL_HASH_VAR
-    ARGUMENT_ARRAY
+    PROGRAM_ARGUMENT LIBRARY_DIRECTORIES ARGUMENT_ARRAY
+    INCLUDE ENVIRONMENT SIGNAL
     SEMI_COLON COMMA ARROW COLON POINTER
-    ASSIGN
+    ASSIGN REG_OK REG_NOT
     DOUBLE
     RIGHT_BRACE LEFT_BRACE
     RIGHT_PAREN LEFT_PAREN
@@ -30,7 +31,7 @@ our @EXPORT = qw(
     CONTINUE
     BUILTIN_FUNC GOTO RETURN NEXT LAST REDO
     PACKAGE CLASS NAMESPACE NAMESPACE_RESOLVER
-    AND OR ALPHABET_AND ALPHABET_OR ALPHABET_XOR BIT_AND BIT_OR OR_EQUAL AND_EQUAL EQUAL_EQUAL NOT ALPHABET_NOT
+    AND OR ALPHABET_AND ALPHABET_OR ALPHABET_XOR BIT_AND BIT_OR BIT_XOR OR_EQUAL AND_EQUAL EQUAL_EQUAL NOT ALPHABET_NOT NOT_EQUAL
     RIGHT_SHIFT_EQUAL LEFT_SHIFT_EQUAL
     SHORT_SCALAR_DEREFERENCE SHORT_ARRAY_DEREFERENCE SHORT_HASH_DEREFERENCE SHORT_CODE_DEREFERENCE
     THREE_TERM_OP DEFAULT_OP
@@ -38,14 +39,23 @@ our @EXPORT = qw(
     RIGHT_SHIFT LEFT_SHIFT
     GLOB REF PROTOTYPE
     MOD_WORD
-    TYPE_STDIN
+    TYPE_STDIN TYPE_STDOUT TYPE_STDERR
     HANDLE HANDLE_DELIM DIAMOND
-    LESS GREATER COMPARE STRING_COMPARE
-    MUL STRING_ADD STRING_MUL
+    LESS LESS_EQUAL GREATER GREATER_EQUAL COMPARE
+    STRING_LESS STRING_GREATER STRING_COMPARE STRING_NOT_EQUAL
+    STRING_LESS_EQUAL STRING_GREATER_EQUAL
+    MUL MOD STRING_ADD STRING_MUL
     SPECIFIC_VALUE SPECIFIC_KEYWORD ARRAY_SIZE
     DEFAULT
     PROTOTYPE
     SCALAR_DEREFERENCE HASH_DEREFERENCE ARRAY_DEREFERENCE ARRAY_SIZE_DEREFERENCE
+
+    POWER_EQUAL ADD_EQUAL MUL_EQUAL AND_BIT_EQUAL SUB_EQUAL DIV_EQUAL
+    OR_BIT_EQUAL MOD_EQUAL NOT_BIT_EQUAL DEFAULT_EQUAL STRING_ADD_EQUAL
+
+    PLUSPLUS MINUSMINUS
+
+    SLICE
 );
 
 use constant {
@@ -54,6 +64,7 @@ use constant {
     LOCAL_DECL    => Compiler::Lexer::TokenType::T_LocalDecl,
     FUNCTION_DECL => Compiler::Lexer::TokenType::T_FunctionDecl,
     FORMAT_DECL   => Compiler::Lexer::TokenType::T_FormatDecl,
+    STATE_DECL    => Compiler::Lexer::TokenType::T_StateDecl,
 
     USE_DECL     => Compiler::Lexer::TokenType::T_UseDecl,
     REQUIRE_DECL => Compiler::Lexer::TokenType::T_RequireDecl,
@@ -77,7 +88,12 @@ use constant {
     LOCAL_ARRAY_VAR => Compiler::Lexer::TokenType::T_LocalArrayVar,
     LOCAL_HASH_VAR  => Compiler::Lexer::TokenType::T_LocalHashVar,
 
-    ARGUMENT_ARRAY => Compiler::Lexer::TokenType::T_ArgumentArray,
+    PROGRAM_ARGUMENT    => Compiler::Lexer::TokenType::T_ProgramArgument,
+    LIBRARY_DIRECTORIES => Compiler::Lexer::TokenType::T_LibraryDirectories,
+    ARGUMENT_ARRAY      => Compiler::Lexer::TokenType::T_ArgumentArray,
+    INCLUDE             => Compiler::Lexer::TokenType::T_Include,
+    ENVIRONMENT         => Compiler::Lexer::TokenType::T_Environment,
+    SIGNAL              => Compiler::Lexer::TokenType::T_Signal,
 
     IF_STATEMENT      => Compiler::Lexer::TokenType::T_IfStmt,
     ELSE_STATEMENT    => Compiler::Lexer::TokenType::T_ElseStmt,
@@ -145,6 +161,8 @@ use constant {
     COLON      => Compiler::Lexer::TokenType::T_Colon,
     ARROW      => Compiler::Lexer::TokenType::T_Arrow,
     ASSIGN     => Compiler::Lexer::TokenType::T_Assign,
+    REG_OK     => Compiler::Lexer::TokenType::T_RegOK,
+    REG_NOT    => Compiler::Lexer::TokenType::T_RegNot,
     POINTER    => Compiler::Lexer::TokenType::T_Pointer,
 
     DOUBLE => Compiler::Lexer::TokenType::T_Double,
@@ -158,9 +176,11 @@ use constant {
     ALPHABET_XOR => Compiler::Lexer::TokenType::T_AlphabetXOr,
     BIT_AND => Compiler::Lexer::TokenType::T_BitAnd,
     BIT_OR  => Compiler::Lexer::TokenType::T_BitOr,
+    BIT_XOR => Compiler::Lexer::TokenType::T_BitXOr,
     OR_EQUAL => Compiler::Lexer::TokenType::T_OrEqual,
     AND_EQUAL => Compiler::Lexer::TokenType::T_AndEqual,
     EQUAL_EQUAL => Compiler::Lexer::TokenType::T_EqualEqual,
+    NOT_EQUAL => Compiler::Lexer::TokenType::T_NotEqual,
 
     RIGHT_SHIFT_EQUAL => Compiler::Lexer::TokenType::T_RightShiftEqual,
     LEFT_SHIFT_EQUAL  => Compiler::Lexer::TokenType::T_LeftShiftEqual,
@@ -187,17 +207,28 @@ use constant {
     MOD_WORD => Compiler::Lexer::TokenType::T_ModWord,
 
     TYPE_STDIN => Compiler::Lexer::TokenType::T_STDIN, # STDIN is reserved by main::
+    TYPE_STDOUT => Compiler::Lexer::TokenType::T_STDOUT, # STDOUT is reserved by main::
+    TYPE_STDERR => Compiler::Lexer::TokenType::T_STDERR, # STDERR is reserved by main::
 
     HANDLE => Compiler::Lexer::TokenType::T_Handle,
     HANDLE_DELIM => Compiler::Lexer::TokenType::T_HandleDelim,
     DIAMOND => Compiler::Lexer::TokenType::T_Diamond,
 
     LESS => Compiler::Lexer::TokenType::T_Less,
+    LESS_EQUAL => Compiler::Lexer::TokenType::T_LessEqual,
     GREATER => Compiler::Lexer::TokenType::T_Greater,
+    GREATER_EQUAL => Compiler::Lexer::TokenType::T_GreaterEqual,
     COMPARE => Compiler::Lexer::TokenType::T_Compare,
-    STRING_COMPARE => Compiler::Lexer::TokenType::T_StringCompare,
+
+    STRING_LESS      => Compiler::Lexer::TokenType::T_StringLess,
+    STRING_GREATER   => Compiler::Lexer::TokenType::T_StringGreater,
+    STRING_COMPARE   => Compiler::Lexer::TokenType::T_StringCompare,
+    STRING_NOT_EQUAL => Compiler::Lexer::TokenType::T_StringNotEqual,
+    STRING_LESS_EQUAL    => Compiler::Lexer::TokenType::T_StringLessEqual,
+    STRING_GREATER_EQUAL => Compiler::Lexer::TokenType::T_StringGreaterEqual,
 
     MUL => Compiler::Lexer::TokenType::T_Mul,
+    MOD => Compiler::Lexer::TokenType::T_Mod,
     STRING_ADD => Compiler::Lexer::TokenType::T_StringAdd,
     STRING_MUL => Compiler::Lexer::TokenType::T_StringMul,
 
@@ -213,6 +244,23 @@ use constant {
     HASH_DEREFERENCE   => Compiler::Lexer::TokenType::T_HashDereference,
     ARRAY_DEREFERENCE  => Compiler::Lexer::TokenType::T_ArrayDereference,
     ARRAY_SIZE_DEREFERENCE  => Compiler::Lexer::TokenType::T_ArraySizeDereference,
+
+    POWER_EQUAL   => Compiler::Lexer::TokenType::T_PowerEqual,
+    ADD_EQUAL     => Compiler::Lexer::TokenType::T_AddEqual,
+    MUL_EQUAL     => Compiler::Lexer::TokenType::T_MulEqual,
+    AND_BIT_EQUAL => Compiler::Lexer::TokenType::T_AndBitEqual,
+    SUB_EQUAL     => Compiler::Lexer::TokenType::T_SubEqual,
+    DIV_EQUAL     => Compiler::Lexer::TokenType::T_DivEqual,
+    OR_BIT_EQUAL  => Compiler::Lexer::TokenType::T_OrBitEqual,
+    MOD_EQUAL     => Compiler::Lexer::TokenType::T_ModEqual,
+    NOT_BIT_EQUAL => Compiler::Lexer::TokenType::T_NotBitEqual,
+    DEFAULT_EQUAL => Compiler::Lexer::TokenType::T_DefaultEqual,
+    STRING_ADD_EQUAL => Compiler::Lexer::TokenType::T_StringAddEqual,
+
+    PLUSPLUS => Compiler::Lexer::TokenType::T_Inc,
+    MINUSMINUS => Compiler::Lexer::TokenType::T_Dec,
+
+    SLICE => Compiler::Lexer::TokenType::T_Slice,
 };
 
 1;
