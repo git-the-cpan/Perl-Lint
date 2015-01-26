@@ -10,7 +10,7 @@ build_requires:
 configure_requires:
   Module::Build::Tiny: '0.035'
 dynamic_config: 0
-generated_by: 'Minilla/v2.1.3, CPAN::Meta::Converter version 2.142060'
+generated_by: 'Minilla/v2.3.0, CPAN::Meta::Converter version 2.143240'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -29,7 +29,7 @@ no_index:
 provides:
   Perl::Lint:
     file: lib/Perl/Lint.pm
-    version: '0.10'
+    version: '0.11'
   Perl::Lint::Constants::Kind:
     file: lib/Perl/Lint/Constants/Kind.pm
   Perl::Lint::Constants::Type:
@@ -266,6 +266,8 @@ provides:
     file: lib/Perl/Lint/Policy/ValuesAndExpressions/ProhibitMixedBooleanOperators.pm
   Perl::Lint::Policy::ValuesAndExpressions::ProhibitNoisyQuotes:
     file: lib/Perl/Lint/Policy/ValuesAndExpressions/ProhibitNoisyQuotes.pm
+  Perl::Lint::Policy::ValuesAndExpressions::ProhibitQuotesAsQuotelikeOperatorDelimiters:
+    file: lib/Perl/Lint/Policy/ValuesAndExpressions/ProhibitQuotesAsQuotelikeOperatorDelimiters.pm
   Perl::Lint::Policy::ValuesAndExpressions::ProhibitSpecialHeredocTerminator:
     file: lib/Perl/Lint/Policy/ValuesAndExpressions/ProhibitSpecialHeredocTerminator.pm
   Perl::Lint::Policy::ValuesAndExpressions::ProhibitVersionStrings:
@@ -276,6 +278,8 @@ provides:
     file: lib/Perl/Lint/Policy/ValuesAndExpressions/RequireInterpolationOfMetachars.pm
   Perl::Lint::Policy::ValuesAndExpressions::RequireNumberSeparators:
     file: lib/Perl/Lint/Policy/ValuesAndExpressions/RequireNumberSeparators.pm
+  Perl::Lint::Policy::ValuesAndExpressions::RequireQuotedHeredocTerminator:
+    file: lib/Perl/Lint/Policy/ValuesAndExpressions/RequireQuotedHeredocTerminator.pm
   Perl::Lint::Policy::ValuesAndExpressions::RequireUpperCaseHeredocTerminator:
     file: lib/Perl/Lint/Policy/ValuesAndExpressions/RequireUpperCaseHeredocTerminator.pm
   Perl::Lint::Policy::Variables::ProhibitAugmentedAssignmentInDeclaration:
@@ -308,29 +312,27 @@ provides:
     file: lib/Perl/Lint/Policy/Variables/RequireLocalizedPunctuationVars.pm
   Perl::Lint::Policy::Variables::RequireNegativeIndices:
     file: lib/Perl/Lint/Policy/Variables/RequireNegativeIndices.pm
-  Perl::Lint::RegexpParser:
-    file: lib/Perl/Lint/RegexpParser.pm
 requires:
   B::Keywords: '0'
   Carp: '0'
-  Compiler::Lexer: '0.19'
+  Compiler::Lexer: '0.21'
   Email::Address: '0'
   List::Flatten: '0'
   List::MoreUtils: '0.33'
-  List::Util: '1.38'
+  List::Util: '1.41'
   Module::Load: '0'
   Module::Pluggable: '0'
-  Regexp::Parser: '0'
+  Regexp::Lexer: '0.04'
   String::CamelCase: '0'
   Test::Deep::NoTest: '0'
   feature: '0'
   parent: '0'
   perl: '5.010001'
 resources:
-  bugtracker: https://git@github.com/moznion/Perl-Lint/issues
-  homepage: https://git@github.com/moznion/Perl-Lint
-  repository: git://git@github.com/moznion/Perl-Lint
-version: '0.10'
+  bugtracker: https://github.com/moznion/Perl-Lint/issues
+  homepage: https://github.com/moznion/Perl-Lint
+  repository: git://github.com/moznion/Perl-Lint.git
+version: '0.11'
 x_authority: cpan:MOZNION
 x_contributors:
   - 'Syohei YOSHIDA <syohex@gmail.com>'

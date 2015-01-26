@@ -7,7 +7,7 @@ use Compiler::Lexer;
 use Module::Pluggable;
 use Module::Load;
 
-our $VERSION = "0.10";
+our $VERSION = "0.11";
 
 sub new {
     my ($class, $args) = @_;
@@ -75,11 +75,16 @@ sub lint {
 
 sub lint_string {
     my ($self, $src) = @_;
+
     return $self->_lint($src);
 }
 
 sub _lint {
     my ($self, $src, $file) = @_;
+
+    if (!defined $src || $src eq '') {
+        return [];
+    }
 
     my $args = $self->{args};
 
