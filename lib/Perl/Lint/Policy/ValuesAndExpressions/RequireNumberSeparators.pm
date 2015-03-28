@@ -26,14 +26,23 @@ sub evaluate {
 
             my ($decimal_part, $fractional_part) = split /\./, $num;
             my @decimals    = split /_/, $decimal_part;
-            my @fractionals = split(/_/, $fractional_part || 0);
+            my @fractionals = ();
 
-            if (join('', @decimals) . '.' . join('', @fractionals) < $min_value) {
+            my $joined;
+            if (defined $fractional_part) {
+                @fractionals = split /_/, $fractional_part;
+                $joined = join('', @decimals) . '.' . join('', @fractionals);
+            } else {
+                $joined = join '', @decimals;
+            }
+
+            if ((eval($joined) // -$min_value - 1) < $min_value) { ## no critic
+                #                 ~~~~~~~~~~~~~~~ If reach here, $joined is not a number
                 next;
             }
 
             for my $part (@decimals, @fractionals) {
-                if ($part >= 1000) {
+                if (eval($part) >= 1000) {  ## no critic
                     push @violations, {
                         filename => $file,
                         line     => $token->{line},

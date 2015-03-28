@@ -196,6 +196,19 @@ blah() unless $foo !~ m/bar/;
 
 blah() until $foo !~ m/bar/;
 
+===
+--- dscr: no lint
+--- failures: 0
+--- params:
+--- input
+unless ($foo !~ m/bar/) { ## no lint
+    blah();
+}
+
+until ($foo !~ m/bar/) { ## no lint
+    blah();
+}
+
 END_NOT_MATCH_CODE
 
     return;
@@ -273,3 +286,4 @@ END_COMPARATOR_CODE
 
     return;
 }
+

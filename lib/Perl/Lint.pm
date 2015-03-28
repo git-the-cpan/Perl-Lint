@@ -7,7 +7,7 @@ use Compiler::Lexer;
 use Module::Pluggable;
 use Module::Load;
 
-our $VERSION = "0.11";
+our $VERSION = "0.20";
 
 sub new {
     my ($class, $args) = @_;
@@ -91,9 +91,53 @@ sub _lint {
     my $lexer = Compiler::Lexer->new($file);
     my $tokens = $lexer->tokenize($src);
 
+    # list `no lint` lines
+    # TODO improve performance
+    my %no_lint_lines = ();
+    my %used_no_lint_lines = ();
+    my $line_num = 1;
+    for my $line (split /\r?\n/, $src) {
+        if ($line =~ /(#.+)?##\s*no\slint(?:\s+(?:qw)?([(][^)]*[)]|"[^"]*"|'[^']*'))?/) {
+            next if $1; # Already commented out at before
+
+            my $annotations = {};
+            if ($2) {
+                my $annotation = substr $2, 1, -1;
+                $annotations = {map {$_ => 1} grep {$_} split /[, ]/, $annotation};
+            }
+            $no_lint_lines{$line_num} = $annotations;
+        }
+        $line_num++;
+    }
+
+    my $prohibit_useless_no_lint_policy;
+
     my @violations;
     for my $policy (@{$self->{site_policies}}) {
-        push @violations, @{$policy->evaluate($file, $tokens, $src, $args)};
+        if ($policy eq 'Perl::Lint::Policy::Miscellanea::ProhibitUselessNoLint') {
+            $prohibit_useless_no_lint_policy = $policy;
+            next;
+        }
+
+        if ($policy eq 'Perl::Lint::Policy::Miscellanea::ProhibitUnrestrictedNoLint') {
+            push @violations, @{$policy->evaluate($file, $tokens, $src, $args, \%no_lint_lines)};
+            next;
+        }
+
+
+        for my $violation (@{$policy->evaluate($file, $tokens, $src, $args)}) {
+            my $violation_line = $violation->{line};
+            my $no_lint = $no_lint_lines{$violation_line};
+            if (!$no_lint || (keys %$no_lint > 0 && !$no_lint->{(split /::/, $violation->{policy})[-1]})) {
+                push @violations, $violation;
+            }
+            $used_no_lint_lines{$violation_line} = 1;
+        }
+    }
+
+    if ($prohibit_useless_no_lint_policy) {
+        push @violations,
+            @{$prohibit_useless_no_lint_policy->evaluate($file, \%no_lint_lines, \%used_no_lint_lines)};
     }
 
     return \@violations;
@@ -120,10 +164,6 @@ Perl::Lint - Yet Another Perl Source Code Linter
 =head1 DESCRIPTION
 
 Perl::Lint is the yet another source code linter for perl.
-
-B<THIS IS A DEVELOPMENT RELEASE. API MAY CHANGE WITHOUT NOTICE>
-
-B<PLEASE DO NOT BELIEVE THE RESULT OF THIS MODULE YET.>
 
 =head1 AIMS
 

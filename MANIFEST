@@ -68,6 +68,8 @@ lib/Perl/Lint/Policy/InputOutput/RequireCheckedSyscalls.pm
 lib/Perl/Lint/Policy/InputOutput/RequireEncodingWithUTF8Layer.pm
 lib/Perl/Lint/Policy/Miscellanea/ProhibitFormats.pm
 lib/Perl/Lint/Policy/Miscellanea/ProhibitTies.pm
+lib/Perl/Lint/Policy/Miscellanea/ProhibitUnrestrictedNoLint.pm
+lib/Perl/Lint/Policy/Miscellanea/ProhibitUselessNoLint.pm
 lib/Perl/Lint/Policy/Modules/ProhibitAutomaticExportation.pm
 lib/Perl/Lint/Policy/Modules/ProhibitConditionalUseStatements.pm
 lib/Perl/Lint/Policy/Modules/ProhibitEvilModules.pm
@@ -205,6 +207,8 @@ t/Policy/InputOutput/require_checked_syscalls.t
 t/Policy/InputOutput/require_encoding_with_utf8_layer.t
 t/Policy/Miscellanea/prohibit_formats.t
 t/Policy/Miscellanea/prohibit_ties.t
+t/Policy/Miscellanea/prohibit_unrestricted_no_lint.t
+t/Policy/Miscellanea/prohibit_useless_no_lint.t
 t/Policy/Module/prohibit_automatic_exportation.t
 t/Policy/Module/prohibit_conditional_use_statements.t
 t/Policy/Module/prohibit_evil_modules.t

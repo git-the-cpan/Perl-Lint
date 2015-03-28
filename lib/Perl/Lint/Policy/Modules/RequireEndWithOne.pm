@@ -25,6 +25,11 @@ sub evaluate {
     my $before_last_token_type = $before_last_token->{type};
     my $before_last_token_data = $before_last_token->{data};
     my $extra_before_token = $tokens->[-3];
+
+    if (!%$last_token || !%$before_last_token) {
+        return [];
+    }
+
     if (
         !(
             $before_last_token_type == ASSIGN &&
@@ -38,8 +43,8 @@ sub evaluate {
                 $extra_before_token->{type} == RIGHT_BRACE
             ) &&
             $before_last_token_type == INT &&
-            $before_last_token_data == 1 &&
-            $last_token_type == SEMI_COLON
+            $last_token_type == SEMI_COLON &&
+            eval($before_last_token_data) == 1 ## no critic: to accept bin, oct and hex decimal
         )
     ) {
         push @violations, {

@@ -47,14 +47,14 @@
          "requires" : {
             "B::Keywords" : "0",
             "Carp" : "0",
-            "Compiler::Lexer" : "0.21",
+            "Compiler::Lexer" : "0.22",
             "Email::Address" : "0",
             "List::Flatten" : "0",
             "List::MoreUtils" : "0.33",
             "List::Util" : "1.41",
             "Module::Load" : "0",
             "Module::Pluggable" : "0",
-            "Regexp::Lexer" : "0.04",
+            "Regexp::Lexer" : "0.05",
             "String::CamelCase" : "0",
             "Test::Deep::NoTest" : "0",
             "feature" : "0",
@@ -74,7 +74,7 @@
    "provides" : {
       "Perl::Lint" : {
          "file" : "lib/Perl/Lint.pm",
-         "version" : "0.11"
+         "version" : "0.20"
       },
       "Perl::Lint::Constants::Kind" : {
          "file" : "lib/Perl/Lint/Constants/Kind.pm"
@@ -252,6 +252,12 @@
       },
       "Perl::Lint::Policy::Miscellanea::ProhibitTies" : {
          "file" : "lib/Perl/Lint/Policy/Miscellanea/ProhibitTies.pm"
+      },
+      "Perl::Lint::Policy::Miscellanea::ProhibitUnrestrictedNoLint" : {
+         "file" : "lib/Perl/Lint/Policy/Miscellanea/ProhibitUnrestrictedNoLint.pm"
+      },
+      "Perl::Lint::Policy::Miscellanea::ProhibitUselessNoLint" : {
+         "file" : "lib/Perl/Lint/Policy/Miscellanea/ProhibitUselessNoLint.pm"
       },
       "Perl::Lint::Policy::Modules::ProhibitAutomaticExportation" : {
          "file" : "lib/Perl/Lint/Policy/Modules/ProhibitAutomaticExportation.pm"
@@ -511,9 +517,10 @@
          "web" : "https://github.com/moznion/Perl-Lint"
       }
    },
-   "version" : "0.11",
+   "version" : "0.20",
    "x_authority" : "cpan:MOZNION",
    "x_contributors" : [
-      "Syohei YOSHIDA <syohex@gmail.com>"
+      "Syohei YOSHIDA <syohex@gmail.com>",
+      "Tom Hukins <tom@eborcom.com>"
    ]
 }

@@ -983,6 +983,19 @@ blah() unless $foo !~ m/bar/;
 blah() until $foo !~ m/bar/;
 
 ===
+--- dscr: no lint
+--- failures: 0
+--- params:
+--- input
+unless ($foo !~ m/bar/) { ## no lint
+    blah();
+}
+
+until ($foo !~ m/bar/) { ## no lint
+    blah();
+}
+
+===
 --- dscr: "ne" within positive control structures
 --- failures: 0
 --- params:
