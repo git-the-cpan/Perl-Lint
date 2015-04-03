@@ -74,7 +74,7 @@
    "provides" : {
       "Perl::Lint" : {
          "file" : "lib/Perl/Lint.pm",
-         "version" : "0.20"
+         "version" : "0.21"
       },
       "Perl::Lint::Constants::Kind" : {
          "file" : "lib/Perl/Lint/Constants/Kind.pm"
@@ -517,7 +517,7 @@
          "web" : "https://github.com/moznion/Perl-Lint"
       }
    },
-   "version" : "0.20",
+   "version" : "0.21",
    "x_authority" : "cpan:MOZNION",
    "x_contributors" : [
       "Syohei YOSHIDA <syohex@gmail.com>",

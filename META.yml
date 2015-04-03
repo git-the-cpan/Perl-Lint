@@ -10,7 +10,7 @@ build_requires:
 configure_requires:
   Module::Build::Tiny: '0.035'
 dynamic_config: 0
-generated_by: 'Minilla/v2.3.0, CPAN::Meta::Converter version 2.143240'
+generated_by: 'Minilla/v2.3.0, CPAN::Meta::Converter version 2.142690'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -29,7 +29,7 @@ no_index:
 provides:
   Perl::Lint:
     file: lib/Perl/Lint.pm
-    version: '0.20'
+    version: '0.21'
   Perl::Lint::Constants::Kind:
     file: lib/Perl/Lint/Constants/Kind.pm
   Perl::Lint::Constants::Type:
@@ -336,7 +336,7 @@ resources:
   bugtracker: https://github.com/moznion/Perl-Lint/issues
   homepage: https://github.com/moznion/Perl-Lint
   repository: git://github.com/moznion/Perl-Lint.git
-version: '0.20'
+version: '0.21'
 x_authority: cpan:MOZNION
 x_contributors:
   - 'Syohei YOSHIDA <syohex@gmail.com>'

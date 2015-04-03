@@ -7,7 +7,7 @@ use Compiler::Lexer;
 use Module::Pluggable;
 use Module::Load;
 
-our $VERSION = "0.20";
+our $VERSION = "0.21";
 
 sub new {
     my ($class, $args) = @_;
@@ -181,6 +181,14 @@ C<lint> checks the violations of target files. It can export.
 On default, this function checks the all of policies that are in C<Perl::Lint::Policy::*>.
 
 =back
+
+=head1 PERFORMANCE
+
+Benchmark script: L<https://github.com/moznion/Perl-Lint/blob/master/author/benchmark_lint_vs_critic.pl>.
+
+                   Rate Perl::Critic   Perl::Lint
+    Perl::Critic 20.6/s           --         -78%
+    Perl::Lint   92.0/s         348%           --
 
 =head1 SEE ALSO
 
