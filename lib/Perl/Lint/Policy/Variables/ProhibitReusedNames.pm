@@ -7,8 +7,8 @@ use Perl::Lint::Constants::Type;
 use parent "Perl::Lint::Policy";
 
 use constant {
-    DESC => '',
-    EXPL => '',
+    DESC => 'Reused variable name in lexical scope: ',
+    EXPL => 'Invent unique variable names',
 };
 
 my %var_token_types = (
@@ -90,13 +90,17 @@ sub evaluate {
                             push @violations, {
                                 filename => $file,
                                 line     => $token->{line},
-                                description => DESC,
+                                description => DESC . $token_data,
                                 explanation => EXPL,
                                 policy => __PACKAGE__,
                             };
                             next;
                         }
 
+                        # XXX
+                        if ($depth < 0 && scalar @local_vars_by_depth < -$depth) {
+                            next;
+                        }
                         push @{$local_vars_by_depth[$depth]}, $token_data;
                         next;
                     }
@@ -122,6 +126,11 @@ sub evaluate {
                     explanation => EXPL,
                     policy => __PACKAGE__,
                 };
+                next;
+            }
+
+            # XXX
+            if ($depth < 0 && scalar @local_vars_by_depth < -$depth) {
                 next;
             }
 

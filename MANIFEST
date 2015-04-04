@@ -152,6 +152,7 @@ lib/Perl/Lint/Policy/Variables/RequireInitializationForLocalVars.pm
 lib/Perl/Lint/Policy/Variables/RequireLexicalLoopIterators.pm
 lib/Perl/Lint/Policy/Variables/RequireLocalizedPunctuationVars.pm
 lib/Perl/Lint/Policy/Variables/RequireNegativeIndices.pm
+lib/Test/Perl/Lint.pm
 minil.toml
 t/00_compile.t
 t/01_filter_policise.t
@@ -297,5 +298,10 @@ t/Policy/Variables/require_localized_punctuation_vars.t
 t/Policy/Variables/require_negative_indices.t
 t/Policy/Variables/resources/variables-no-regular-expressions.txt
 t/Policy/Variables/resources/variables-regular-expressions.txt
+t/Test/00_compile.t
+t/Test/01_basic.t
+t/Test/resources/c_style_loop.pl
+t/Test/resources/no_package_scoped_version.pl
+t/Test/resources/should_be_ignore.pl
 META.yml
 MANIFEST

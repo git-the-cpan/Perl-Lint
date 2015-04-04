@@ -6,11 +6,11 @@ build_requires:
   Capture::Tiny: '0'
   File::Temp: '0'
   Test::Base::Less: '0'
-  Test::More: '0.98'
+  Test::Builder::Tester: '1.28'
 configure_requires:
   Module::Build::Tiny: '0.035'
 dynamic_config: 0
-generated_by: 'Minilla/v2.3.0, CPAN::Meta::Converter version 2.142690'
+generated_by: 'Minilla/v2.3.0, CPAN::Meta::Converter version 2.143240'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -29,7 +29,7 @@ no_index:
 provides:
   Perl::Lint:
     file: lib/Perl/Lint.pm
-    version: '0.21'
+    version: '0.22'
   Perl::Lint::Constants::Kind:
     file: lib/Perl/Lint/Constants/Kind.pm
   Perl::Lint::Constants::Type:
@@ -316,6 +316,9 @@ provides:
     file: lib/Perl/Lint/Policy/Variables/RequireLocalizedPunctuationVars.pm
   Perl::Lint::Policy::Variables::RequireNegativeIndices:
     file: lib/Perl/Lint/Policy/Variables/RequireNegativeIndices.pm
+  Test::Perl::Lint:
+    file: lib/Test/Perl/Lint.pm
+    version: '0.22'
 requires:
   B::Keywords: '0'
   Carp: '0'
@@ -326,9 +329,12 @@ requires:
   List::Util: '1.41'
   Module::Load: '0'
   Module::Pluggable: '0'
+  Path::Tiny: '0.068'
   Regexp::Lexer: '0.05'
   String::CamelCase: '0'
+  Test::Builder::Module: '0'
   Test::Deep::NoTest: '0'
+  Test::More: '0.98'
   feature: '0'
   parent: '0'
   perl: '5.010001'
@@ -336,7 +342,7 @@ resources:
   bugtracker: https://github.com/moznion/Perl-Lint/issues
   homepage: https://github.com/moznion/Perl-Lint
   repository: git://github.com/moznion/Perl-Lint.git
-version: '0.21'
+version: '0.22'
 x_authority: cpan:MOZNION
 x_contributors:
   - 'Syohei YOSHIDA <syohex@gmail.com>'

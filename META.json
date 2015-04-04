@@ -54,9 +54,12 @@
             "List::Util" : "1.41",
             "Module::Load" : "0",
             "Module::Pluggable" : "0",
+            "Path::Tiny" : "0.068",
             "Regexp::Lexer" : "0.05",
             "String::CamelCase" : "0",
+            "Test::Builder::Module" : "0",
             "Test::Deep::NoTest" : "0",
+            "Test::More" : "0.98",
             "feature" : "0",
             "parent" : "0",
             "perl" : "5.010001"
@@ -67,14 +70,14 @@
             "Capture::Tiny" : "0",
             "File::Temp" : "0",
             "Test::Base::Less" : "0",
-            "Test::More" : "0.98"
+            "Test::Builder::Tester" : "1.28"
          }
       }
    },
    "provides" : {
       "Perl::Lint" : {
          "file" : "lib/Perl/Lint.pm",
-         "version" : "0.21"
+         "version" : "0.22"
       },
       "Perl::Lint::Constants::Kind" : {
          "file" : "lib/Perl/Lint/Constants/Kind.pm"
@@ -504,6 +507,10 @@
       },
       "Perl::Lint::Policy::Variables::RequireNegativeIndices" : {
          "file" : "lib/Perl/Lint/Policy/Variables/RequireNegativeIndices.pm"
+      },
+      "Test::Perl::Lint" : {
+         "file" : "lib/Test/Perl/Lint.pm",
+         "version" : "0.22"
       }
    },
    "release_status" : "stable",
@@ -517,7 +524,7 @@
          "web" : "https://github.com/moznion/Perl-Lint"
       }
    },
-   "version" : "0.21",
+   "version" : "0.22",
    "x_authority" : "cpan:MOZNION",
    "x_contributors" : [
       "Syohei YOSHIDA <syohex@gmail.com>",
