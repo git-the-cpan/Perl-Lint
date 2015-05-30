@@ -37,8 +37,11 @@ sub evaluate {
     my @local_vars_by_depth = ([]);
     for (my $i = 0, my $token_type; my $token = $tokens->[$i]; $i++) {
         $token_type = $token->{type};
-
-        if ($token_type == LEFT_BRACE) {
+        if ($token_type == LEFT_BRACE
+            || $token_type == HASH_DEREFERENCE
+            || $token_type == ARRAY_DEREFERENCE
+            || $token_type == SCALAR_DEREFERENCE
+            ) {
             $depth++;
             push @local_vars_by_depth, [];
             next;

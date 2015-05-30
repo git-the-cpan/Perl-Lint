@@ -77,7 +77,7 @@
    "provides" : {
       "Perl::Lint" : {
          "file" : "lib/Perl/Lint.pm",
-         "version" : "0.22"
+         "version" : "0.23"
       },
       "Perl::Lint::Constants::Kind" : {
          "file" : "lib/Perl/Lint/Constants/Kind.pm"
@@ -510,7 +510,7 @@
       },
       "Test::Perl::Lint" : {
          "file" : "lib/Test/Perl/Lint.pm",
-         "version" : "0.22"
+         "version" : "0.23"
       }
    },
    "release_status" : "stable",
@@ -524,10 +524,11 @@
          "web" : "https://github.com/moznion/Perl-Lint"
       }
    },
-   "version" : "0.22",
+   "version" : "0.23",
    "x_authority" : "cpan:MOZNION",
    "x_contributors" : [
       "Syohei YOSHIDA <syohex@gmail.com>",
-      "Tom Hukins <tom@eborcom.com>"
+      "Tom Hukins <tom@eborcom.com>",
+      "Dale Evans <dale.evans@mycanadapayday.com>"
    ]
 }
